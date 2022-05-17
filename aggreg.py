@@ -11,14 +11,9 @@ def charge_urls(liste_url):
     Return = {};
     for url_rss in liste_url:
         try:
-            feed = feedparser.parse(url_rss)
+            parse = feedparser.parse(url_rss)
             Return[url_rss] = [];
-            for key in feed.entries: 
-                entrie = {};
-                entrie["title"] = key["title"];
-                entrie["description"] = key["description"];
-                entrie["pubDate"] = key["pubDate"];
-                entrie["link"] = key["link"];
+            for key, entrie in parse.entries: 
                 Return[url_rss].append(entrie);
         except:
             Return[url_rss] = None;
@@ -35,13 +30,10 @@ def display_charge_urls(liste_flux):
             print("url error");
         else:
             for entries in liste_flux[key]:
-                for feed in entries:
-                    print("Item "+str(index));
-                    print("\t title:"+str(feed["title"]));
-                    print("\t description:"+str(feed["description"]));
-                    print("\t pubDate:"+str(feed["pubDate"]));
-                    print("\t link:"+str(feed["link"]));
-                    index +=1;
+                print("Item "+str(index));
+                index +=1;
+                for key, feed in entries:
+                    print("\t "+str(key)+":"+str(entries[key]));
                     
 def fusion_flux(liste_url, liste_flux):
     Return = [];
