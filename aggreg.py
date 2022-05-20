@@ -8,55 +8,44 @@ import sys;
 import feedparser;
 
 def charge_urls(liste_url):
-    Return = {};
+    Return = [];
     for url_rss in liste_url:
-        try:
-            parse = feedparser.parse(url_rss)
-            Return[url_rss] = [];
-            for key, entrie in parse.entries: 
-                Return[url_rss].append(entrie);
-        except:
-            Return[url_rss] = None;
-    return Return;
-        
-    
-def display_charge_urls(liste_flux):
-    for key in liste_flux.keys():
-        print("-"*30);
-        print(key);
-        print("-"*30);
-        index = 0;
-        if liste_flux[key] is None:
-            print("url error");
+        parse = feedparser.parse(url_rss)
+        if parse.bozo is False:
+            Return.append(parse.entries);
         else:
-            for entries in liste_flux[key]:
-                print("Item "+str(index));
-                index +=1;
-                for key, feed in entries:
-                    print("\t "+str(key)+":"+str(entries[key]));
-                    
+            Return.append(None);
+    return Return;
+
+
 def fusion_flux(liste_url, liste_flux):
     Return = [];
-    for key in liste_flux.keys():
-        if liste_flux[key] is not None:
-            for entries in liste_flux[key]:
-                for feed in entries:
-                    entrie = {};
-                    
+    for i in range(len(liste_url)):
+        if liste_flux[i] is not None:
+            for feed in liste_flux[i]:
+                dic = {};
+                dic["titre"] = feed["title"];
+                dic["categorie"] = feed["tags"][0]["term"];
+                dic["serveur"] = liste_url[i];
+                dic["date_publi"] = feed["published"];
+                dic["lien"] = feed["link"];
+                dic["description"] = feed["summary"];
+                Return.append(dic);
     return Return;
+
+def genere_html(liste_evenements, chemin_html):
 
 
 def main():
     assert len(sys.argv) > 1;
-    
+
     rss_urls = sys.argv;
     rss_urls.pop(0); # On supprime le fichier python de la liste des arguments
-    
+
     liste_flux = charge_urls(rss_urls);
-    
-    display_charge_urls(liste_flux);
-    
-        
-    
+
+    liste_evenements = fusion_flux(rss_urls, liste_flux);
+
+
 if __name__ == "__main__":
     main();
