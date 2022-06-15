@@ -22,7 +22,7 @@ def charge_urls(liste_url):
     return Return;
 
 
-def fusion_flux(liste_url, liste_flux):
+def fusion_flux(liste_url, liste_flux, trichrono):
     Return = [];
     for i in range(len(liste_url)):
         if liste_flux[i] is not None:
@@ -38,7 +38,7 @@ def fusion_flux(liste_url, liste_flux):
                 element = datetime.strptime(dic["date_publi"],"%a, %d %b %Y %H:%M");
                 dic["time"] = int(datetime.timestamp(element));
 
-                if(len(Return) > 0):
+                if(len(Return) > 0 and trichrono):
                     for i2 in range(len(Return)):
                         if Return[i2]["time"] < dic["time"]:
                             Return.insert(i2, dic);
@@ -69,7 +69,7 @@ def genere_html(liste_evenements, chemin_html):
         f.write(output);
 
 def load_config():
-    with open("config.yaml", "r") as configs:
+    with open("assets/config.yaml", "r") as configs:
         return yaml.safe_load(configs);
 
 def generate_rssurls(urls, name):
@@ -88,7 +88,7 @@ def main():
 
     liste_flux = charge_urls(urls_rss);
 
-    liste_evenements = fusion_flux(configs["sources"], liste_flux);
+    liste_evenements = fusion_flux(configs["sources"], liste_flux, configs["tri-chrono"]);
 
     genere_html(liste_evenements, configs["destination"]);
 
