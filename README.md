@@ -1,5 +1,6 @@
+
 # Python SAE203
-### Mettre en place une solution informatique dans le bute de centraliser les flux RSS de plusieurs machines par le biais d'une machine aggrégateur.
+### Mettre en place une solution informatique dans le bute de centraliser les flux RSS de plusieurs machines par le biais d'une machine agrégateur.
 
 
 ```mermaid
@@ -12,9 +13,9 @@ D ---- E((Client))
 -----
 
 
-## Installer la solution sur votre aggrégateur
+## Installer la solution sur votre agrégateur
 
-Votre machine doit avoir python la dernière version de **Python** et d'**Apache** d'installé.
+Votre machine doit avoir la dernière version de **Python** et d'**Apache** d'installé.
 Cloner le git dans un dossier:
 
     git clone https://github.com/guedesite/python-sae203.git
@@ -28,11 +29,10 @@ Installer les dépendances pour **Python** avec **pip**:
 
 ## Fonctionnalités
 
- - Dernière version de python
  - Simple d'utilisation et de configuration
  - Ultra léger
  - Simple d'édition
- - Puissant, jusqu'à une centaine de machine simultané 
+ - Puissant, jusqu'à une centaine de machine en simultané 
 
 
 
@@ -93,3 +93,29 @@ Le modal de la page HTML se trouve dans [assets/model.html](assets/model.html), 
 #### Édition du CSS
 L'édition du CSS se fait obligatoirement depuis le fichier [assets/theme.css](assets/theme.css) et surtout pas directement la ou la page à été généré, puisqu'à la prochaine génération, le fichier CSS sera remplacer si il détecte un changement entre le fichier de base et celui généré avec la page HTML.
 
+## Format du flux RSS
+
+Le flux RSS doit respecté les spécificité de RSS 2.0 et doit être construit comme cela:
+
+    <?xml version="1.0" encoding="UTF-8"?>
+	<rss version="2.0">
+		<channel>
+		    <title>Mon site</title>
+		    <description>Ceci est un exemple de flux RSS 2.0</description>
+		    <lastBuildDate>Sat, 07 Sep 2002 00:00:01 GMT</lastBuildDate>
+		    <link>http://www.example.org</link>
+		    <item>
+		      <title>Actualité N°1</title>
+		      <description>Ceci est ma première actualité</description>
+		      <pubDate>Sat, 07 Sep 2002 00:00:01 GMT</pubDate>
+		      <link>http://www.example.org/actu1</link>
+		    </item>
+		    <item>
+		      <title>Actualité N°2</title>
+		      <description>Ceci est ma seconde actualité</description>
+		      <pubDate>Sat, 07 Sep 2002 00:00:01 GMT</pubDate>
+		      <link>http://www.example.org/actu2</link>
+		    </item>
+		    ...
+		 </channel>
+	</rss>
