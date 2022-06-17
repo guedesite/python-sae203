@@ -25,6 +25,11 @@ Installer les dépendances pour **Python** avec **pip**:
     pip install feedparser
     pip install pyyaml
 
+Lancer le script manuellement:
+
+    
+    cd python-sae203
+    python3 aggreg.py
 
 
 ## Fonctionnalités
